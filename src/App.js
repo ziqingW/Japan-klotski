@@ -47,7 +47,7 @@ const styles = {
       filter: "brightness(120%)"
     },
     color: "black",
-    margin: "10px 0 0 0",
+    margin: "5px 0 0 0",
     fontSize: "2em",
   },
 
@@ -95,7 +95,7 @@ const styles = {
     '&:hover': {
       cursor: 'pointer',
     },
-    marginTop: "20px",
+    marginTop: "10px",
     fontSize: "12px",
   },
 
@@ -218,11 +218,11 @@ class App extends Component {
   render() {
     const {classes} = this.props
     return (
-      <Grid container direction="column" justify="center" alignItems="center" className={classes.wrapper} id="mainPanel">
+      <Grid container direction="column" justify="flex-start" alignItems="center" className={classes.wrapper} id="mainPanel">
         <h1 style={{margin: "15px 0 0 0", textShadow: "1px 1px 1px white"}}>Daughter in the box</h1>
         <Help className={classes.help} onClick={this.openHelp}/>
           <HelpText open={this.state.helpOpen} onClose={this.handleClose} />
-        <h4><i>-- a klotski game --</i></h4>
+        <h4 style={{margin: "5px 0"}}><i>-- a klotski game --</i></h4>
         <Grid container justify="flex-start" className={classes.frame}>
           <GridLayout layout={this.state.layout} cols={4} rowHeight={70} width={280} margin={[2,2]} containerPadding = {[0,0]} isResizable={false} preventCollision={true} compactType={null} onLayoutChange={this.onLayoutChange} onDragStart={this.onDragStart} onDragStop={this.onDragStop} draggableHandle=".moving-grid">
             {layout.map((block, i) => {
@@ -235,7 +235,7 @@ class App extends Component {
           </GridLayout>
         </Grid>
           <Grid container justify="center" direction="column" alignItems="center">
-          <Details style={{marginTop: "15px"}}/>
+          <Details style={{marginTop: "5px"}}/>
           <h3 className={this.state.win ? classes.freedom : classes.nonfreedom}><i>EXIT</i></h3>
             <Button variant="contained" className={classes.button} onClick={this.reset}>
               Reset
