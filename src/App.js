@@ -29,16 +29,16 @@ const styles = {
     backgroundPosition: "center",
     backgroundRepeat: "no-repeat",
     backgroundSize: "cover",
-    overflow: "hidden",
   },
 
   frame : {
     border : "1px solid black",
-    width: '340px',
-    height: '430px',
+    width: '300px',
+    height: '380px',
     padding: '10px',
     borderRadius: '5px',
     backgroundColor: "rgba(249, 249, 97, 0.5)",
+    overflow: "hidden",
   },
 
   help: {
@@ -224,7 +224,7 @@ class App extends Component {
           <HelpText open={this.state.helpOpen} onClose={this.handleClose} />
         <h4><i>-- a klotski game --</i></h4>
         <Grid container justify="flex-start" alignItems="center" className={classes.frame}>
-          <GridLayout layout={this.state.layout} cols={4} rowHeight={80} width={320} margin={[2,2]} containerPadding = {[0,0]} isResizable={false} preventCollision={true} compactType={null} onLayoutChange={this.onLayoutChange} onDragStart={this.onDragStart} onDragStop={this.onDragStop} draggableHandle=".moving-grid">
+          <GridLayout layout={this.state.layout} cols={4} rowHeight={70} width={280} margin={[2,2]} containerPadding = {[0,0]} isResizable={false} preventCollision={true} compactType={null} onLayoutChange={this.onLayoutChange} onDragStart={this.onDragStart} onDragStop={this.onDragStop} draggableHandle=".moving-grid">
             {layout.map((block, i) => {
               const classTag = ([0,2,3,7].includes(i) ? classes.vBlock : ([5,6,8,9].includes(i) ? classes.sBlock : (i === 4 ? classes.wBlock : classes.bBlock)))
               return (
