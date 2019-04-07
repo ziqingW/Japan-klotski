@@ -223,7 +223,7 @@ class App extends Component {
         <Help className={classes.help} onClick={this.openHelp}/>
           <HelpText open={this.state.helpOpen} onClose={this.handleClose} />
         <h4><i>-- a klotski game --</i></h4>
-        <Grid container justify="flex-start" alignItems="center" className={classes.frame}>
+        <Grid container justify="flex-start" className={classes.frame}>
           <GridLayout layout={this.state.layout} cols={4} rowHeight={70} width={280} margin={[2,2]} containerPadding = {[0,0]} isResizable={false} preventCollision={true} compactType={null} onLayoutChange={this.onLayoutChange} onDragStart={this.onDragStart} onDragStop={this.onDragStop} draggableHandle=".moving-grid">
             {layout.map((block, i) => {
               const classTag = ([0,2,3,7].includes(i) ? classes.vBlock : ([5,6,8,9].includes(i) ? classes.sBlock : (i === 4 ? classes.wBlock : classes.bBlock)))
@@ -231,6 +231,7 @@ class App extends Component {
                 <div className={this.state.win ? [classes.grid, classTag] : [classes.grid, "moving-grid", classTag]} key={block.i}>{block.name}</div>
           )}
             )}
+            <div key="z" data-grid={{x: 0, y: 5, w: 4, h: 3, static: true}}></div>
           </GridLayout>
         </Grid>
           <Grid container justify="center" direction="column" alignItems="center">
