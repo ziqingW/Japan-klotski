@@ -1,11 +1,11 @@
 self.__precacheManifest = [
   {
-    "revision": "d14b0c62468de611fc74",
+    "revision": "d129f4807bb86c67e939",
     "url": "/daughter-in-the-box/static/css/main.09cb9f66.chunk.css"
   },
   {
-    "revision": "d14b0c62468de611fc74",
-    "url": "/daughter-in-the-box/static/js/main.910273d3.chunk.js"
+    "revision": "d129f4807bb86c67e939",
+    "url": "/daughter-in-the-box/static/js/main.d9db1c67.chunk.js"
   },
   {
     "revision": "5d170975c542f1237b9e",
@@ -32,7 +32,7 @@ self.__precacheManifest = [
     "url": "/daughter-in-the-box/static/media/wt034.46b3b606.ttf"
   },
   {
-    "revision": "fba947d7e69ef71ea262a4002c793626",
+    "revision": "9dbd0be67f672c4f827f4405922e35d2",
     "url": "/daughter-in-the-box/index.html"
   }
 ];
