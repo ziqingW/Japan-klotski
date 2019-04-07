@@ -28,6 +28,7 @@ const styles = {
     backgroundPosition: "center",
     backgroundRepeat: "no-repeat",
     backgroundSize: "cover",
+    overflow: "hidden",
   },
 
   frame : {
