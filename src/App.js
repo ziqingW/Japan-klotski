@@ -5,6 +5,7 @@ import GridLayout from "react-grid-layout";
 import gridBack from './static/gridBack.jpg'
 import sky from './static/sky.jpg'
 import HelpText from './components/HelpText'
+import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock'
 
 const layout = [
   {i: "0", x: 0, y: 0, w: 1, h: 2, name: "父親"},
@@ -142,6 +143,8 @@ function saveToLS (key, value) {
 }
 
 class App extends Component {
+  targetElement = null;
+
   constructor(props) {
     super(props)
     this.state = {
@@ -153,6 +156,14 @@ class App extends Component {
     }
   }
 
+  componentDidMount() {
+    this.targetElement = document.querySelector('#mainPanel');
+    disableBodyScroll(this.targetElement);
+  }
+
+  componentWillUnmount() {
+    clearAllBodyScrollLocks();
+  }
   onLayoutChange = layout => {
     const dragged = this.state.dragged
     if (dragged) {
@@ -207,7 +218,7 @@ class App extends Component {
   render() {
     const {classes} = this.props
     return (
-      <Grid container direction="column" justify="center" alignItems="center" className={classes.wrapper}>
+      <Grid container direction="column" justify="center" alignItems="center" className={classes.wrapper} id="mainPanel">
         <h1 style={{margin: "15px 0 0 0", textShadow: "1px 1px 1px white"}}>Daughter in the box</h1>
         <Help className={classes.help} onClick={this.openHelp}/>
           <HelpText open={this.state.helpOpen} onClose={this.handleClose} />
