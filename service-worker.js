@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/daughter-in-the-box/precache-manifest.0e37bc8b3c47d5b04ac456b1b6f828b5.js"
+  "/daughter-in-the-box/precache-manifest.2ef3b06d22853496acf76aa316b28ed3.js"
 );
 
 workbox.clientsClaim();
