@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/daughter-in-the-box/precache-manifest.0206c2ccb30141c9bc1a2a1dc14fb67c.js"
+  "/Japan-klotski/precache-manifest.10191abde68669a9a842a2439c3be556.js"
 );
 
 workbox.clientsClaim();
@@ -28,7 +28,7 @@ self.__precacheManifest = [].concat(self.__precacheManifest || []);
 workbox.precaching.suppressWarnings();
 workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
 
-workbox.routing.registerNavigationRoute("/daughter-in-the-box/index.html", {
+workbox.routing.registerNavigationRoute("/Japan-klotski/index.html", {
   
   blacklist: [/^\/_/,/\/[^\/]+\.[^\/]+$/],
 });
