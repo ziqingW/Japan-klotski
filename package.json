@@ -2,7 +2,7 @@
   "name": "klotski",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://ziqingW.github.io/daughter-in-the-box",
+  "homepage": "http://ziqingW.github.io/Japan-klotski",
   "dependencies": {
     "@material-ui/core": "^3.9.3",
     "@material-ui/icons": "^3.0.2",
