@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/Japan-klotski/precache-manifest.10191abde68669a9a842a2439c3be556.js"
+  "/Japan-klotski/precache-manifest.46fb6157a047118b01ce425bcad3a701.js"
 );
 
 workbox.clientsClaim();

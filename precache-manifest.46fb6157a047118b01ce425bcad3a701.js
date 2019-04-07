@@ -1,11 +1,11 @@
 self.__precacheManifest = [
   {
-    "revision": "634bd3c8d4997268407b",
+    "revision": "1b05db93b954da022ef0",
     "url": "/Japan-klotski/static/css/main.f1570d2c.chunk.css"
   },
   {
-    "revision": "634bd3c8d4997268407b",
-    "url": "/Japan-klotski/static/js/main.3a082287.chunk.js"
+    "revision": "1b05db93b954da022ef0",
+    "url": "/Japan-klotski/static/js/main.a1a6e05d.chunk.js"
   },
   {
     "revision": "0a601047c21f27d5f507",
@@ -32,7 +32,7 @@ self.__precacheManifest = [
     "url": "/Japan-klotski/static/media/wt034.46b3b606.ttf"
   },
   {
-    "revision": "074f9ebb58ad095c9f94afcaa85b4bf0",
+    "revision": "a0b9abdd8678f8d59c367fbec672bfaf",
     "url": "/Japan-klotski/index.html"
   }
 ];
