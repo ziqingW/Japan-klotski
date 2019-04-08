@@ -1,68 +1,28 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Japanese Klotski Puzzle
+<a href='https://en.wikipedia.org/wiki/Klotski' rel='noopener noreferrer' target='_blank'>Klotski</a> is a sliding block puzzle thought to have originated in the early 20th century. The name may refer to a specific layout of ten blocks, or in a more global sense to refer to a whole group of similar sliding-block puzzles where the aim is to move a specific block to some predefined location. In this Japanese version, the goal is to help the Daughter which is the red block <span style='color: red;'><b>(娘)</b></span> escape from all kinds of pressures from the traditional family and society to the EXIT.
 
-## Available Scripts
+## How to play
+1. Move the block one grid at one time by dragging and dropping. 
+2. Otherwise, the game would be forced to retreat to the previous stored layout. 
+3. Make the biggest block(娘) to the EXIT and you win it! 
+___
+## Nerd's thinking
+### Gains:
+- It's my first React project working with draggable elements 
+- In the beginning I thought it was impossible to complete, thanks to the React-Grid-Layout I can freely drag and drop any grids in the end
 
-In the project directory, you can run:
+### Pains:
+- Due to the lack of documentaion of React-Grid-Layout, it was very hard to catch the correct timing for updating state 
+- Also, several features were hard to implement as the boundary for the grids' moving range or rules to restrict moving mode 
+- I had to work around by restricting moving block only one grid at one time, otherwise the game would be forced refresh with the layout as the last step, which hurt user's experience badly 
+- And the drag gesture was a nightmare on ios that the whole page was moving elasticly by moving the block 
+- After a long time of searching and trial, I overcame it by using 'body-scroll-lock' which can lock body part of the page 
 
-### `npm start`
+## Languages:
+- React 
+- React-Grid-Layout 
+- Material-ui 
+- body-scroll-lock
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+## Published:
+GitHub Page
