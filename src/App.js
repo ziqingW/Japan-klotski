@@ -1,13 +1,7 @@
-import React, { Component } from 'react';
-import {Grid, Button, withStyles, Modal} from '@material-ui/core'
-import {Details, Help} from '@material-ui/icons'
+import { useState } from 'react';
 import GridLayout from "react-grid-layout";
-import gridBack from './static/gridBack.jpg'
-import sky from './static/sky.jpg'
-import HelpText from './components/HelpText'
-import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock'
 
-const layout = [
+const LAYOUT = [
   {i: "0", x: 0, y: 0, w: 1, h: 2, name: "父親"},
   {i: "1", x: 1, y: 0, w: 2, h: 2, name: "娘"},
   {i: "2", x: 3, y: 0, w: 1, h: 2, name: "母親"},
@@ -18,246 +12,126 @@ const layout = [
   {i: "7", x: 3, y: 2, w: 1, h: 2, name: "祖母"},
   {i: "8", x: 0, y: 4, w: 1, h: 1, name: "和裁"},
   {i: "9", x: 4, y: 4, w: 1, h: 1, name: "書道"},
-]
+];
 
-const originalLayout = getFromLS("layout") || Object.assign([],layout);
+const CHEAT_LAYOUT = [
+  {i: "0", x: 0, y: 0, w: 1, h: 2, name: "父親"},
+  {i: "1", x: 1, y: 2, w: 2, h: 2, name: "娘"},
+  {i: "2", x: 3, y: 0, w: 1, h: 2, name: "母親"},
+  {i: "3", x: 0, y: 2, w: 1, h: 2, name: "祖父"},
+  {i: "4", x: 1, y: 0, w: 2, h: 1, name: "兄弟"},
+  {i: "5", x: 1, y: 1, w: 1, h: 1, name: "花道"},
+  {i: "6", x: 2, y: 1, w: 1, h: 1, name: "茶道"},
+  {i: "7", x: 3, y: 2, w: 1, h: 2, name: "祖母"},
+  {i: "8", x: 0, y: 4, w: 1, h: 1, name: "和裁"},
+  {i: "9", x: 4, y: 4, w: 1, h: 1, name: "書道"},
+];
 
 const styles = {
-  wrapper: {
-    minHeight: "100vh",
-    backgroundImage: `url(${sky})`,
-    backgroundPosition: "center",
-    backgroundRepeat: "no-repeat",
-    backgroundSize: "cover",
+  block: {
+    border: '1px solid #333',
   },
-
-  frame : {
-    border : "1px solid black",
-    width: '300px',
-    height: '380px',
-    padding: '10px',
-    borderRadius: '5px',
-    backgroundColor: "rgba(249, 249, 97, 0.5)",
-    overflow: "hidden",
-  },
-
-  help: {
-    "&:hover" : {
-      cursor: 'pointer',
-      filter: "brightness(120%)"
-    },
-    color: "black",
-    margin: "5px 0 0 0",
-    fontSize: "2em",
-  },
-
   grid : {
-    '&:hover': {
-      cursor: 'pointer',
-      filter: "brightness(120%)"
-    },
-    fontFamily: 'wt034',
-    boxShadow: "2px 2px 3px black",
-    borderRadius: "2px",
+    fontSize: "1.5em",
+    fontWeight: "bold",
+    borderRadius: "4px",
     boxSizing: "border-box",
-    backgroundImage : `url(${gridBack})`,
-    fontSize: "3em",
+    background: "#ca9",
     color: "#202020",
-    textShadow: "1px 1px 1px #ccc",
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
     textAlign: "center",
   },
+}
+const gridSettings = {
+  cols: 4,
+  rowHeight: 70,
+  width: 280,
+  margin: [2, 2],
+  containerPadding: [0, 0],
+  isResizable: false,
+  isBounded: true,
+  preventCollision: true,
+  compactType: null,
+  draggableHandle: '.moving-grid',
+};
 
-  sBlock: {
-    fontSize: "1.5em",
-    color: "#3d2b20",
-    textShadow: "1px 1px 1px white",
-  },
+export default function App() {
 
-  wBlock: {
-    textShadow: "1px 1px 1px blue",
-  },
+  // try to get from storage or load defaults
+  const loadInitialState = () => {
+    const savedLayout = loadLayout();
+    return savedLayout || LAYOUT.slice(0);
+  };
 
-  vBlock: {
-    textShadow: "1px 1px 1px yellow",
-  },
-
-  bBlock: {
-    fontSize: "5em",
-    color: '#e04c23',
-    textShadow: "2px 2px 1px black"
-  },
-
-  button : {
-    '&:hover': {
-      cursor: 'pointer',
-    },
-    marginTop: "10px",
-    fontSize: "12px",
-  },
-
-  nonfreedom: {
-    margin: "0",
-    color: "green",
-    opacity: "0.8",
-    textShadow: "1px 1px 1px black"
-  },
-
-  freedom: {
-    margin: "0",
-    color: "green",
-    filter: "brightness(150%)",
-    textShadow: "1px 1px 1px black"
-  },
-
-  modalScreen: {
-    minHeight: "100vh",
-    backgroundColor: "rgba(255,255,255,0.7)",
-  },
-
-  modalContent : {
-    width: "430px",
-    height: "300px",
-    textAlign: "center",
+  // we only need to check for valid drags and win
+  // state when the a block is released from drag
+  const onDragStop = (layout, oldBlk, newBlk) => {
+    const dx = Math.abs(newBlk.x - oldBlk.x);
+    const dy = Math.abs(newBlk.y - oldBlk.y);
+    if (dx + dy > 1) {
+      global.location.reload();
+      return;
+    }
+    saveLayout(layout);
+    setWin(newBlk.i === '1' && newBlk.x === 1 && newBlk.y === 3);
   }
+
+  // we reset the game by saving default layout and reloading
+  // the page (i can't figure out the clean method atm).
+  const resetGame = evt => {
+    const startingLayout = LAYOUT.slice(0);
+    saveLayout(startingLayout);
+    global.location.reload();
+  }
+
+  // just update the layout to have the square block
+  // just above the exit
+  const cheatGame = evt => {
+    setLayout(CHEAT_LAYOUT.slice(0));
+  }
+
+  const [win, setWin] = useState(0);
+  const [layout, setLayout] = useState(loadInitialState);
+
+  return (
+    <div>
+      <GridLayout
+        {...gridSettings}
+        layout={layout}
+        onDragStop={onDragStop}
+      >
+        {LAYOUT.map((blk, i) => (
+          <div
+            key={blk.i}
+            style={styles.grid}
+            className={!win && 'moving-grid'}>{blk.name}</div>
+        ))}
+      </GridLayout>
+      {!!win && <div><strong>You solved it!</strong></div>}
+      <input type="button" onClick={resetGame} value="Reset" />
+      <input type="button" onClick={cheatGame} value="Cheat" />
+    </div>
+  );
 }
 
-function getFromLS (key) {
-  let ls = {};
+// helper: loads layout from local storage
+function loadLayout() {
   if (global.localStorage) {
     try {
-      ls = JSON.parse(global.localStorage.getItem("klotski")) || {};
-    } catch (e) {
-    }
+      const data = JSON.parse(global.localStorage.getItem('klotski')) || {};
+      return data.layout;
+    } catch (e) {}
   }
-  return ls[key];
+  return LAYOUT;
 }
 
-function saveToLS (key, value) {
+// helper: save layout into local storage
+function saveLayout(layout) {
   if (global.localStorage) {
-    global.localStorage.setItem("klotski", JSON.stringify({[key]: value}))
+    global.localStorage.setItem('klotski', JSON.stringify({ 'layout': layout }));
   }
 }
 
-class App extends Component {
-  targetElement = null;
-
-  constructor(props) {
-    super(props)
-    this.state = {
-      layout: JSON.parse(JSON.stringify(originalLayout)),
-      prevLayout: [],
-      dragged: null,
-      win: false,
-      helpOpen: false
-    }
-  }
-
-  componentDidMount() {
-    this.targetElement = document.querySelector('#mainPanel');
-    disableBodyScroll(this.targetElement);
-  }
-
-  componentWillUnmount() {
-    clearAllBodyScrollLocks();
-  }
-  onLayoutChange = layout => {
-    const dragged = this.state.dragged
-    if (dragged) {
-      const currentLayout = layout.slice(0,10)
-      const newItem = currentLayout[dragged]
-      const oldItem = this.state.prevLayout[dragged]
-      if (newItem.x !== oldItem.x || newItem.y !== oldItem.y) {
-          if (Math.abs(newItem.x - oldItem.x) >1 || Math.abs(newItem.y - oldItem.y) > 1 || (Math.abs(newItem.x - oldItem.x) >=1 && Math.abs(newItem.y - oldItem.y) >= 1)) {
-            global.location.reload()
-          } else {
-            let win = false
-            if (newItem.i === "1" && newItem.x === 1 && newItem.y ===3) {
-              win = true
-            }
-            this.setState({layout: currentLayout, win: win})
-            saveToLS("layout", currentLayout)
-          }
-    }
-  }
-  }
-
-  onDragStart = (layout, oldItem, newItem, placeholder, e, element) => {
-    this.setState({
-      prevLayout : Object.assign([], layout.slice(0,10))
-    })
-  }
-
-  onDragStop = (layout, oldItem, newItem, placeholder, e, element) => {
-    this.setState({
-      dragged: parseInt(newItem.i)
-    })
-  }
-
-  openHelp = () => {
-    this.setState({
-      helpOpen: true
-    })
-  }
-
-  handleClose = () => {
-    this.setState({ helpOpen: false })
-  }
-
-  reset = e => {
-    this.setState({
-      layout: Object.assign([],layout),
-      win: false
-    })
-    global.localStorage.clear()
-  }
-
-  render() {
-    const {classes} = this.props
-    return (
-      <Grid container direction="column" justify="flex-start" alignItems="center" className={classes.wrapper} id="mainPanel">
-        <h1 style={{margin: "15px 0 0 0", textShadow: "1px 1px 1px white"}}>Daughter in the box</h1>
-        <Help className={classes.help} onClick={this.openHelp}/>
-          <HelpText open={this.state.helpOpen} onClose={this.handleClose} />
-        <h4 style={{margin: "5px 0"}}><i>-- a klotski game --</i></h4>
-        <Grid container justify="flex-start" className={classes.frame}>
-          <GridLayout layout={this.state.layout} cols={4} rowHeight={70} width={280} margin={[2,2]} containerPadding = {[0,0]} isResizable={false} preventCollision={true} compactType={null} onLayoutChange={this.onLayoutChange} onDragStart={this.onDragStart} onDragStop={this.onDragStop} draggableHandle=".moving-grid">
-            {layout.map((block, i) => {
-              const classTag = ([0,2,3,7].includes(i) ? classes.vBlock : ([5,6,8,9].includes(i) ? classes.sBlock : (i === 4 ? classes.wBlock : classes.bBlock)))
-              return (
-                <div className={this.state.win ? [classes.grid, classTag] : [classes.grid, "moving-grid", classTag]} key={block.i}>{block.name}</div>
-          )}
-            )}
-            <div key="z" data-grid={{x: 0, y: 5, w: 4, h: 3, static: true}}></div>
-          </GridLayout>
-        </Grid>
-          <Grid container justify="center" direction="column" alignItems="center">
-          <Details style={{marginTop: "5px"}}/>
-          <h3 className={this.state.win ? classes.freedom : classes.nonfreedom}><i>EXIT</i></h3>
-            <Button variant="contained" className={classes.button} onClick={this.reset}>
-              Reset
-            </Button>
-        </Grid>
-        <Modal open={this.state.win}>
-          <Grid container direction="column" justify="center" alignItems="center" className={classes.modalScreen}>
-            <Grid container direction="column" justify="center" alignItems="center" className={classes.modalContent}>
-              <div>
-                <h3>You helped the Daughter get freedom!</h3>
-                <h3>You are the hero!</h3>
-              </div>
-              <Button style={{marginTop:"50px"}} variant="contained" color="primary" onClick={this.reset}>
-                Replay
-              </Button>
-          </Grid>
-          </Grid>
-        </Modal>
-      </Grid>
-    );
-  }
-}
-
-App = withStyles(styles)(App)
-export default App;
